@@ -36,6 +36,8 @@ class Main {
 		// Register plugin hooks here.
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		add_action( 'wp_head', array( Schema::class, 'output_home_schema' ) );
+
+		add_filter( 'wpseo_json_ld_output', '__return_false' );
 	}
 
 	/**
