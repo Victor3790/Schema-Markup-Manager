@@ -27,37 +27,39 @@ class Schema {
 			return;
 		}
 
+		$website_url = home_url();
+
 		$schema = array(
 			'@context' => 'https://schema.org',
 			'@graph'   => array(
 				array(
 					'@type'       => 'WebSite',
-					'@id'         => 'https://mi-comunidad.com/#website',
-					'url'         => 'https://mi-comunidad.com/',
+					'@id'         => $website_url . '/#website',
+					'url'         => $website_url,
 					'name'        => 'Mi Comunidad',
 					'description' => 'Guía local con información sobre la colonia Mi Comunidad, sus lugares de interés, servicios y negocios.',
 					'inLanguage'  => 'es-MX',
 					'about'       => array(
-						'@id' => 'https://mi-comunidad.com/#place',
+						'@id' => $website_url . '/#place',
 					),
 				),
 				array(
 					'@type'       => 'WebPage',
-					'@id'         => 'https://mi-comunidad.com/#webpage',
-					'url'         => 'https://mi-comunidad.com/',
+					'@id'         => $website_url . '/#webpage',
+					'url'         => $website_url,
 					'name'        => 'Mi Comunidad - Guía local',
 					'description' => 'Información sobre la colonia Mi Comunidad, su historia, ubicación, lugares de interés y servicios locales.',
 					'inLanguage'  => 'es-MX',
 					'isPartOf'    => array(
-						'@id' => 'https://mi-comunidad.com/#website',
+						'@id' => $website_url . '/#website',
 					),
 					'about'       => array(
-						'@id' => 'https://mi-comunidad.com/#place',
+						'@id' => $website_url . '/#place',
 					),
 				),
 				array(
 					'@type'   => 'Place',
-					'@id'     => 'https://mi-comunidad.com/#place',
+					'@id'     => $website_url . '/#place',
 					'name'    => 'Mi Comunidad',
 					'address' => array(
 						'@type'           => 'PostalAddress',
