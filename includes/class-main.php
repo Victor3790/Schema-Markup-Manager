@@ -30,8 +30,12 @@ class Main {
 	private function __construct() {
 		$this->define_constants();
 
+		// Include classes.
+		require_once PLUGIN_DIR . 'includes/class-schema.php';
+
 		// Register plugin hooks here.
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
+		add_action( 'wp_head', array( Schema::class, 'output_home_schema' ) );
 	}
 
 	/**
