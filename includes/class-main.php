@@ -31,6 +31,7 @@ class Main {
 		$this->define_constants();
 
 		// Register plugin hooks here.
+		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 	}
 
 	/**
@@ -62,5 +63,45 @@ class Main {
 				plugin_dir_path( SCHEMA_MARKUP_MANAGER_PLUGIN_FILE )
 			);
 		}
+	}
+
+	/**
+	 * Register the settings page.
+	 *
+	 * @return void
+	 */
+	public function add_settings_page() {
+		add_options_page(
+			__( 'Schema Markup Manager', 'schema-markup-manager' ),
+			__( 'Schema Markup Manager', 'schema-markup-manager' ),
+			'manage_options',
+			'schema-markup-manager',
+			array( $this, 'render_settings_page' )
+		);
+	}
+
+	/**
+	 * Render the settings page.
+	 *
+	 * @return void
+	 */
+	public function render_settings_page() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		?>
+		<div class="wrap">
+			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+
+			<p>
+				<?php
+				esc_html_e(
+					'Configura el schema markup de tu sitio web.',
+					'schema-markup-manager'
+				);
+				?>
+			</p>
+		</div>
+		<?php
 	}
 }
