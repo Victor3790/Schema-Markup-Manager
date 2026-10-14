@@ -28,6 +28,7 @@ class Schema {
 		}
 
 		$url   = home_url( '/' );
+		$title = get_bloginfo( 'name' );
 
 		$schema = array(
 			'@context' => 'https://schema.org',
@@ -36,7 +37,7 @@ class Schema {
 					'@type'       => 'WebSite',
 					'@id'         => $url . '#website',
 					'url'         => $url,
-					'name'        => 'Mi Comunidad',
+					'name'        => $title,
 					'description' => 'Guía local con información sobre la colonia Mi Comunidad, sus lugares de interés, servicios y negocios.',
 					'inLanguage'  => 'es-MX',
 					'about'       => array(
