@@ -27,39 +27,39 @@ class Schema {
 			return;
 		}
 
-		$website_url = home_url();
+		$url   = home_url( '/' );
 
 		$schema = array(
 			'@context' => 'https://schema.org',
 			'@graph'   => array(
 				array(
 					'@type'       => 'WebSite',
-					'@id'         => $website_url . '/#website',
-					'url'         => $website_url,
+					'@id'         => $url . '#website',
+					'url'         => $url,
 					'name'        => 'Mi Comunidad',
 					'description' => 'Guía local con información sobre la colonia Mi Comunidad, sus lugares de interés, servicios y negocios.',
 					'inLanguage'  => 'es-MX',
 					'about'       => array(
-						'@id' => $website_url . '/#place',
+						'@id' => $url . '#place',
 					),
 				),
 				array(
 					'@type'       => 'WebPage',
-					'@id'         => $website_url . '/#webpage',
-					'url'         => $website_url,
+					'@id'         => $url . '#webpage',
+					'url'         => $url,
 					'name'        => 'Mi Comunidad - Guía local',
 					'description' => 'Información sobre la colonia Mi Comunidad, su historia, ubicación, lugares de interés y servicios locales.',
 					'inLanguage'  => 'es-MX',
 					'isPartOf'    => array(
-						'@id' => $website_url . '/#website',
+						'@id' => $url . '#website',
 					),
 					'about'       => array(
-						'@id' => $website_url . '/#place',
+						'@id' => $url . '#place',
 					),
 				),
 				array(
 					'@type'   => 'Place',
-					'@id'     => $website_url . '/#place',
+					'@id'     => $url . '#place',
 					'name'    => 'Mi Comunidad',
 					'address' => array(
 						'@type'           => 'PostalAddress',
