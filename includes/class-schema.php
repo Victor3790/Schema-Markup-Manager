@@ -27,9 +27,10 @@ class Schema {
 			return;
 		}
 
-		$url     = home_url( '/' );
-		$title   = get_bloginfo( 'name' );
-		$tagline = get_bloginfo( 'description' );
+		$url      = home_url( '/' );
+		$title    = get_bloginfo( 'name' );
+		$tagline  = get_bloginfo( 'description' );
+		$language = get_bloginfo( 'language' );
 
 		$schema = array(
 			'@context' => 'https://schema.org',
@@ -40,7 +41,7 @@ class Schema {
 					'url'         => $url,
 					'name'        => $title,
 					'description' => $tagline,
-					'inLanguage'  => 'es-MX',
+					'inLanguage'  => $language,
 					'about'       => array(
 						'@id' => $url . '#place',
 					),
@@ -51,7 +52,7 @@ class Schema {
 					'url'         => $url,
 					'name'        => 'Mi Comunidad - Guía local',
 					'description' => 'Información sobre la colonia Mi Comunidad, su historia, ubicación, lugares de interés y servicios locales.',
-					'inLanguage'  => 'es-MX',
+					'inLanguage'  => $language,
 					'isPartOf'    => array(
 						'@id' => $url . '#website',
 					),
