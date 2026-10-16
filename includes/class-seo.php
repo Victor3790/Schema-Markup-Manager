@@ -53,6 +53,44 @@ class SEO {
 	}
 
 	/**
+	 * Get the current page URL.
+	 *
+	 * @return string
+	 */
+	public static function get_url() {
+		$presentation = self::get_presentation();
+
+		if (
+			null !== $presentation
+			&& is_string( $presentation->canonical )
+			&& '' !== trim( $presentation->canonical )
+		) {
+			return $presentation->canonical;
+		}
+
+		if ( is_front_page() ) {
+			return home_url( '/' );
+		}
+
+		if ( is_singular() ) {
+			$url = get_permalink( get_queried_object_id() );
+
+			return is_string( $url ) ? $url : '';
+		}
+
+		return '';
+	}
+
+	/**
+	 * Get the website home URL.
+	 *
+	 * @return string
+	 */
+	public static function get_site_url() {
+		return home_url( '/' );
+	}
+
+	/**
 	 * Get Yoast's metadata for the current page.
 	 *
 	 * Call after WordPress has resolved the main query.

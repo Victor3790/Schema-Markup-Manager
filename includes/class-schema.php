@@ -29,7 +29,7 @@ class Schema {
 			return;
 		}
 
-		$url              = home_url( '/' );
+		$url              = SEO::get_url();
 		$title            = SEO::get_site_name();
 		$tagline          = SEO::get_tagline();
 		$language         = SEO::get_language();
