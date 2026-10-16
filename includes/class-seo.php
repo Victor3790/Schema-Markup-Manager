@@ -44,6 +44,15 @@ class SEO {
 	}
 
 	/**
+	 * Get the website language.
+	 *
+	 * @return string
+	 */
+	public static function get_language() {
+		return get_bloginfo( 'language', 'raw' );
+	}
+
+	/**
 	 * Get Yoast's metadata for the current page.
 	 *
 	 * Call after WordPress has resolved the main query.

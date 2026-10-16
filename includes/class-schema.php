@@ -32,7 +32,7 @@ class Schema {
 		$url              = home_url( '/' );
 		$title            = SEO::get_site_name();
 		$tagline          = SEO::get_tagline();
-		$language         = get_bloginfo( 'language' );
+		$language         = SEO::get_language();
 		$page_title       = SEO::get_title();
 		$page_description = SEO::get_description();
 
