@@ -18,6 +18,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 class SEO {
 
 	/**
+	 * Get the website name.
+	 *
+	 * @return string
+	 */
+	public static function get_site_name() {
+		if ( class_exists( '\WPSEO_Options' ) ) {
+			$name = \WPSEO_Options::get( 'website_name', '' );
+
+			if ( is_string( $name ) && '' !== trim( $name ) ) {
+				return trim( $name );
+			}
+		}
+
+		return trim( get_bloginfo( 'name', 'raw' ) );
+	}
+
+	/**
+	 * Get the website tagline.
+	 *
+	 * @return string
+	 */
+	public static function get_tagline() {
+		return trim( get_bloginfo( 'description', 'raw' ) );
+	}
+
+	/**
 	 * Get Yoast's metadata for the current page.
 	 *
 	 * Call after WordPress has resolved the main query.
