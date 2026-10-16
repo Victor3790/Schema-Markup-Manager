@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
+require_once PLUGIN_DIR . 'includes/class-seo.php';
+
 /**
  * The schema class is responsible for generating and outputting schema markup in JSON-LD format.
  */
@@ -27,10 +29,12 @@ class Schema {
 			return;
 		}
 
-		$url      = home_url( '/' );
-		$title    = get_bloginfo( 'name' );
-		$tagline  = get_bloginfo( 'description' );
-		$language = get_bloginfo( 'language' );
+		$url              = home_url( '/' );
+		$title            = get_bloginfo( 'name' );
+		$tagline          = get_bloginfo( 'description' );
+		$language         = get_bloginfo( 'language' );
+		$page_title       = SEO::get_title();
+		$page_description = SEO::get_description();
 
 		$schema = array(
 			'@context' => 'https://schema.org',
@@ -50,8 +54,8 @@ class Schema {
 					'@type'       => 'WebPage',
 					'@id'         => $url . '#webpage',
 					'url'         => $url,
-					'name'        => 'Mi Comunidad - Guía local',
-					'description' => 'Información sobre la colonia Mi Comunidad, su historia, ubicación, lugares de interés y servicios locales.',
+					'name'        => $page_title,
+					'description' => $page_description,
 					'inLanguage'  => $language,
 					'isPartOf'    => array(
 						'@id' => $url . '#website',
