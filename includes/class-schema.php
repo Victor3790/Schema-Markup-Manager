@@ -36,6 +36,12 @@ class Schema {
 		$page_title       = SEO::get_title();
 		$page_description = SEO::get_description();
 
+		$options    = get_option( 'schema_markup_manager_options', array() );
+		$place_name = isset( $options['place_name'] )
+						&& is_string( $options['place_name'] )
+						? $options['place_name']
+						: '';
+
 		$schema = array(
 			'@context' => 'https://schema.org',
 			'@graph'   => array(
@@ -67,7 +73,7 @@ class Schema {
 				array(
 					'@type'   => 'Place',
 					'@id'     => $url . '#place',
-					'name'    => 'Mi Comunidad',
+					'name'    => $place_name,
 					'address' => array(
 						'@type'           => 'PostalAddress',
 						'addressLocality' => 'Ciudad de México',
