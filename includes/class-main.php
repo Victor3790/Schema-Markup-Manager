@@ -168,6 +168,17 @@ class Main {
 				'label_for' => 'schema_markup_manager_place_address_region',
 			)
 		);
+
+		add_settings_field(
+			'place_address_country',
+			__( 'Address Country', 'schema-markup-manager' ),
+			array( $this, 'render_place_address_country_field' ),
+			'schema-markup-manager',
+			'schema_markup_manager_place',
+			array(
+				'label_for' => 'schema_markup_manager_place_address_country',
+			)
+		);
 	}
 
 	/**
@@ -203,6 +214,27 @@ class Main {
 		)
 			? sanitize_text_field( $input['place_address_region'] )
 			: '';
+
+		$country = (
+			is_array( $input )
+			&& isset( $input['place_address_country'] )
+			&& is_string( $input['place_address_country'] )
+		)
+			? strtoupper( trim( sanitize_text_field( $input['place_address_country'] ) ) )
+			: '';
+
+		if ( '' === $country || preg_match( '/^[A-Z]{2}$/D', $country ) ) {
+			$options['place_address_country'] = $country;
+		} else {
+			add_settings_error(
+				'schema_markup_manager_options',
+				'invalid_place_address_country',
+				__(
+					'Country must be a two-letter code, such as MX.',
+					'schema-markup-manager'
+				)
+			);
+		}
 
 		return $options;
 	}
@@ -270,6 +302,42 @@ class Main {
 			value="<?php echo esc_attr( $value ); ?>"
 			class="regular-text"
 		>
+		<?php
+	}
+
+	/**
+	 * Render the place address country field.
+	 *
+	 * @return void
+	 */
+	public function render_place_address_country_field() {
+		$options = get_option( 'schema_markup_manager_options', array() );
+		$value   = isset( $options['place_address_country'] )
+			&& is_string( $options['place_address_country'] )
+			? $options['place_address_country']
+			: '';
+		?>
+		<input
+			type="text"
+			id="schema_markup_manager_place_address_country"
+			name="schema_markup_manager_options[place_address_country]"
+			value="<?php echo esc_attr( $value ); ?>"
+			maxlength="2"
+			pattern="[A-Za-z]{2}"
+			aria-describedby="schema_markup_manager_place_address_country_description"
+			class="small-text"
+		>
+		<p
+			id="schema_markup_manager_place_address_country_description"
+			class="description"
+		>
+			<?php
+			esc_html_e(
+				'Enter the two-letter ISO 3166-1 country code, such as MX.',
+				'schema-markup-manager'
+			);
+			?>
+		</p>
 		<?php
 	}
 }

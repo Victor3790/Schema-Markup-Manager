@@ -52,6 +52,11 @@ class Schema {
 						? $options['place_address_region']
 						: '';
 
+		$address_country = isset( $options['place_address_country'] )
+			&& is_string( $options['place_address_country'] )
+			? $options['place_address_country']
+			: '';
+
 		$schema = array(
 			'@context' => 'https://schema.org',
 			'@graph'   => array(
@@ -88,7 +93,7 @@ class Schema {
 						'@type'           => 'PostalAddress',
 						'addressLocality' => $address_locality,
 						'addressRegion'   => $address_region,
-						'addressCountry'  => 'MX',
+						'addressCountry'  => $address_country,
 					),
 				),
 			),
