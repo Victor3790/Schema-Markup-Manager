@@ -35,6 +35,7 @@ class Main {
 
 		// Register plugin hooks here.
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
+		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'wp_head', array( Schema::class, 'output_home_schema' ) );
 
 		add_filter( 'wpseo_json_ld_output', '__return_false' );
@@ -98,16 +99,95 @@ class Main {
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-
-			<p>
-				<?php
-				esc_html_e(
-					'Configura el schema markup de tu sitio web.',
-					'schema-markup-manager'
-				);
-				?>
-			</p>
+			<form action="options.php" method="post">
+			<?php
+			settings_fields( 'schema_markup_manager' );
+			do_settings_sections( 'schema-markup-manager' );
+			submit_button();
+			?>
+			</form>
 		</div>
+		<?php
+	}
+
+	/**
+	 * Register plugin settings, sections, and fields.
+	 *
+	 * Hooked to admin_init.
+	 *
+	 * @return void
+	 */
+	public function register_settings() {
+		register_setting(
+			'schema_markup_manager',
+			'schema_markup_manager_options',
+			array(
+				'type'              => 'array',
+				'sanitize_callback' => array( $this, 'sanitize_settings' ),
+				'default'           => array(),
+			)
+		);
+
+		// Register the place section and its fields.
+		add_settings_section(
+			'schema_markup_manager_place',
+			__( 'Place', 'schema-markup-manager' ),
+			'__return_false',
+			'schema-markup-manager'
+		);
+
+		add_settings_field(
+			'place_name',
+			__( 'Name', 'schema-markup-manager' ),
+			array( $this, 'render_place_name_field' ),
+			'schema-markup-manager',
+			'schema_markup_manager_place',
+			array(
+				'label_for' => 'schema_markup_manager_place_name',
+			)
+		);
+	}
+
+	/**
+	 * Sanitize plugin settings before saving.
+	 *
+	 * @param mixed $input Submitted settings.
+	 * @return array Sanitized settings.
+	 */
+	public function sanitize_settings( $input ) {
+		$options = get_option( 'schema_markup_manager_options', array() );
+		$options = is_array( $options ) ? $options : array();
+
+		$options['place_name'] = (
+			is_array( $input )
+			&& isset( $input['place_name'] )
+			&& is_string( $input['place_name'] )
+		)
+			? sanitize_text_field( $input['place_name'] )
+			: '';
+
+		return $options;
+	}
+
+	/**
+	 * Render the place name field.
+	 *
+	 * @return void
+	 */
+	public function render_place_name_field() {
+		$options = get_option( 'schema_markup_manager_options', array() );
+		$value   = isset( $options['place_name'] )
+			&& is_string( $options['place_name'] )
+			? $options['place_name']
+			: '';
+		?>
+		<input
+			type="text"
+			id="schema_markup_manager_place_name"
+			name="schema_markup_manager_options[place_name]"
+			value="<?php echo esc_attr( $value ); ?>"
+			class="regular-text"
+		>
 		<?php
 	}
 }
