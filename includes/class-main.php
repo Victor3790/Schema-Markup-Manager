@@ -157,6 +157,17 @@ class Main {
 				'label_for' => 'schema_markup_manager_place_address_locality',
 			)
 		);
+
+		add_settings_field(
+			'place_address_region',
+			__( 'Address Region', 'schema-markup-manager' ),
+			array( $this, 'render_place_address_region_field' ),
+			'schema-markup-manager',
+			'schema_markup_manager_place',
+			array(
+				'label_for' => 'schema_markup_manager_place_address_region',
+			)
+		);
 	}
 
 	/**
@@ -183,6 +194,14 @@ class Main {
 			&& is_string( $input['place_address_locality'] )
 		)
 			? sanitize_text_field( $input['place_address_locality'] )
+			: '';
+
+		$options['place_address_region'] = (
+			is_array( $input )
+			&& isset( $input['place_address_region'] )
+			&& is_string( $input['place_address_region'] )
+		)
+			? sanitize_text_field( $input['place_address_region'] )
 			: '';
 
 		return $options;
@@ -226,6 +245,28 @@ class Main {
 			type="text"
 			id="schema_markup_manager_place_address_locality"
 			name="schema_markup_manager_options[place_address_locality]"
+			value="<?php echo esc_attr( $value ); ?>"
+			class="regular-text"
+		>
+		<?php
+	}
+
+	/**
+	 * Render the place address region field.
+	 *
+	 * @return void
+	 */
+	public function render_place_address_region_field() {
+		$options = get_option( 'schema_markup_manager_options', array() );
+		$value   = isset( $options['place_address_region'] )
+			&& is_string( $options['place_address_region'] )
+			? $options['place_address_region']
+			: '';
+		?>
+		<input
+			type="text"
+			id="schema_markup_manager_place_address_region"
+			name="schema_markup_manager_options[place_address_region]"
 			value="<?php echo esc_attr( $value ); ?>"
 			class="regular-text"
 		>
