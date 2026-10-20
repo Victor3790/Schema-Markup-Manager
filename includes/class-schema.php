@@ -115,20 +115,85 @@ class Schema {
 	}
 
 	/**
-	 * Output Json-LD on the directory page.
+	 * Output JSON-LD on the directory page.
 	 *
 	 * @return void
 	 */
 	public static function output_directory_schema() {
-		$url = SEO::get_url();
+		$url              = SEO::get_url();
+		$site_url         = SEO::get_site_url();
+		$language         = SEO::get_language();
+		$page_title       = SEO::get_title();
+		$page_description = SEO::get_description();
 
 		$schema = array(
 			'@context' => 'https://schema.org',
 			'@graph'   => array(
 				array(
-					'@type' => 'WebSite',
-					'@id'   => $url . '#website',
-					'url'   => $url,
+					'@type'       => 'CollectionPage',
+					'@id'         => $url . '#webpage',
+					'url'         => $url,
+					'name'        => $page_title,
+					'description' => $page_description,
+					'inLanguage'  => $language,
+					'isPartOf'    => array(
+						'@id' => $site_url . '#website',
+					),
+					'about'       => array(
+						'@id' => $site_url . '#place',
+					),
+					'breadcrumb'  => array(
+						'@id' => $url . '#breadcrumb',
+					),
+					'mainEntity'  => array(
+						'@id' => $url . '#categories',
+					),
+				),
+				array(
+					'@type'           => 'BreadcrumbList',
+					'@id'             => $url . '#breadcrumb',
+					'itemListElement' => array(
+						array(
+							'@type'    => 'ListItem',
+							'position' => 1,
+							'name'     => __( 'Inicio', 'schema-markup-manager' ),
+							'item'     => $site_url,
+						),
+						array(
+							'@type'    => 'ListItem',
+							'position' => 2,
+							'name'     => __( 'Directorio', 'schema-markup-manager' ),
+							'item'     => $url,
+						),
+					),
+				),
+				array(
+					'@type'           => 'ItemList',
+					'@id'             => $url . '#categories',
+					'name'            => __(
+						'Categorías del directorio',
+						'schema-markup-manager'
+					),
+					'itemListElement' => array(
+						array(
+							'@type'    => 'ListItem',
+							'position' => 1,
+							'name'     => 'Doctores',
+							'url'      => home_url( '/directorio/doctores/' ),
+						),
+						array(
+							'@type'    => 'ListItem',
+							'position' => 2,
+							'name'     => 'Restaurantes',
+							'url'      => home_url( '/directorio/restaurantes/' ),
+						),
+						array(
+							'@type'    => 'ListItem',
+							'position' => 3,
+							'name'     => 'Farmacias',
+							'url'      => home_url( '/directorio/farmacias/' ),
+						),
+					),
 				),
 			),
 		);
