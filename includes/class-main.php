@@ -79,6 +79,8 @@ class Main {
 	public function output_schema() {
 		if ( is_front_page() ) {
 			Schema::output_home_schema();
+		} elseif ( is_page( 'directorio' ) ) {
+			Schema::output_directory_schema();
 		}
 	}
 }

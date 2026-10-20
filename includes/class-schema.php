@@ -113,4 +113,42 @@ class Schema {
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<script type="application/ld+json">' . $json . '</script>' . "\n";
 	}
+
+	/**
+	 * Output Json-LD on the directory page.
+	 *
+	 * @return void
+	 */
+	public static function output_directory_schema() {
+		$url = SEO::get_url();
+
+		$schema = array(
+			'@context' => 'https://schema.org',
+			'@graph'   => array(
+				array(
+					'@type' => 'WebSite',
+					'@id'   => $url . '#website',
+					'url'   => $url,
+				),
+			),
+		);
+
+		$json = wp_json_encode(
+			$schema,
+			JSON_UNESCAPED_UNICODE
+			| JSON_UNESCAPED_SLASHES
+			| JSON_HEX_TAG
+			| JSON_HEX_AMP
+			| JSON_HEX_APOS
+			| JSON_HEX_QUOT
+		);
+
+		if ( false === $json ) {
+			return;
+		}
+
+		// JSON is encoded with HTML-safe flags for the script context.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '<script type="application/ld+json">' . $json . '</script>' . "\n";
+	}
 }
