@@ -25,10 +25,6 @@ class Schema {
 	 * @return void
 	 */
 	public static function output_home_schema() {
-		if ( ! is_front_page() ) {
-			return;
-		}
-
 		$url              = SEO::get_url();
 		$title            = SEO::get_site_name();
 		$tagline          = SEO::get_tagline();

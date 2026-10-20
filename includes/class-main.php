@@ -36,7 +36,7 @@ class Main {
 		// Register plugin hooks here.
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
-		add_action( 'wp_head', array( Schema::class, 'output_home_schema' ) );
+		add_action( 'wp_head', array( $this, 'output_schema' ) );
 
 		add_filter( 'wpseo_json_ld_output', '__return_false' );
 	}
@@ -69,6 +69,15 @@ class Main {
 				__NAMESPACE__ . '\PLUGIN_DIR',
 				plugin_dir_path( SCHEMA_MARKUP_MANAGER_PLUGIN_FILE )
 			);
+		}
+	}
+
+	/**
+	 * Handle the schmema markup output depending on the page.
+	 */
+	public function output_schema() {
+		if ( is_front_page() ) {
+			Schema::output_home_schema();
 		}
 	}
 
